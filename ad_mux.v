@@ -1,19 +1,18 @@
 `timescale 1ns / 100ps
 
-/****************************** C E C S  3 0 1 ******************************
+/****************************************************************************
  * 
  * File Name:  ad_mux.v
- * Project:    Lab Project 4: Memory & Display Controllers
  * Designer:   Matthew Buchholz 
  * Email:      matthew.buchholz@student.csulb.edu
  * Rev. No.:   Version 1.0
  * Rev. Date:  3/11/19
  *
- * Purpose: 8-1 Multiplexer that takes as input the address and data stored
- *					in that address
- *				Uses 3 bit select signal from state machine to select the output
- *					nibble to be displayed
- *					on an 7-segment display
+ * Purpose:    8-1 Multiplexer that takes as input the address and data stored
+ *			   in that address
+ *			   Uses 3 bit select signal from state machine to select the output
+ *			   nibble to be displayed
+ *			   on an 7-segment display
  *
  ****************************************************************************/
 

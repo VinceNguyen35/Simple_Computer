@@ -2,26 +2,26 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // File Name: 	PC.v
-//	Student:		Vince Nguyen & Matthew Buchholz
-//	Rev. Date:	May 8, 2019
+// Authors:	Vince Nguyen & Matthew Buchholz
+// Rev. Date:	May 8, 2019
 //
-//	Purpose:		This is the Program Counter, which keeps a count of which
-//					instruction is being exectued in the CPU_EU.  The module will load
-//					new instructions if ld is a 1.  If inc is a 1, then the Program
-//					Counter will increment by 1.  Ld has a higher priority over inc.
+// Purpose:	This is the Program Counter, which keeps a count of which
+//		instruction is being exectued in the CPU_EU.  The module will load
+//		new instructions if ld is a 1.  If inc is a 1, then the Program
+//		Counter will increment by 1.  Ld has a higher priority over inc.
 //
 //////////////////////////////////////////////////////////////////////////////////
 
 module PC(
-    input 				 clk,
-    input 				 rst,
-    input 				 ld,
-    input 				 inc,
-    input 		[15:0] D_in,
-    output reg	[15:0] D_out
+    input 		clk,
+    input 		rst,
+    input 		ld,
+    input 		inc,
+    input 	[15:0]  D_in,
+    output reg	[15:0]  D_out
     );
 	 
-	 always @(posedge clk or posedge rst)
+	always @(posedge clk or posedge rst)
 		if(rst)
 			D_out = 16'b0;
 		else

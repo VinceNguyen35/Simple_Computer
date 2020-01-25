@@ -1,18 +1,16 @@
 `timescale 1ns / 100ps
 
-/****************************** C E C S  3 0 1 ******************************
+/****************************************************************************
  * 
  * File Name:  clk_divider.v
- * Project:    CECS 301 Lab 8: 16-Bit RISC Processor
  * Designer:   Matthew Buchholz 
  * Email:      matthew.buchholz@student.csulb.edu
  * Rev. No.:   Version 2.0
  * Rev. Date:  3/11/19 
  *
  * Purpose: This module simply divides the incoming clock by counting 
- *             a calculated number of ticks before switching the clock from
- *					low to high
- *             (or vice versa).
+ *          a calculated number of ticks before switching the clock from
+ *			low to high (or vice versa).
  *          The formula for given ticks in a half period is below
  *          Ouput: 500 hz clock signal
  ****************************************************************************/

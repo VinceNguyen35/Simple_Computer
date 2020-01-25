@@ -2,18 +2,17 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // File Name: 	ram1a.v
-// Project:		CECS 301 Lab 8: 16-bit RISC Processor
-//	Student:		Vince Nguyen & Matthew Buchholz
-//	Rev. Date:	May 8, 2019
+// Authors:	Vince Nguyen & Matthew Buchholz
+// Rev. Date:	May 8, 2019
 //
-//	Purpose:		This is the first RAM file, which is 256 bits deep and 16 bits
-//					wide.
+// Purpose:	This is the first RAM file, which is 256 bits deep and 16 bits
+//		wide.
 //
 //////////////////////////////////////////////////////////////////////////////////
 
 module ram1a(
-    input 			 clk,
-    input 			 we,
+    input 	       clk,
+    input 	       we,
     input 	[15:0] addr,
     input 	[15:0] din,
     output 	[15:0] dout

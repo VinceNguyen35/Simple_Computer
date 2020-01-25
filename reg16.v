@@ -1,8 +1,7 @@
 `timescale 1ns / 100ps
-/****************************** C E C S  3 0 1 ******************************
+/***************************************************************************
  * 
  * File Name:  reg16.v
- * Project:    Lab Project 5: Register Files
  * Designer:   Matthew Buchholz 
  * Email:      matthew.buchholz@student.csulb.edu
  * Rev. No.:   Version 1.0
@@ -10,7 +9,6 @@
  *
  * Purpose: 	A 16 bit register to be used as a 8 x 16 memory.
  *					
- *
  ****************************************************************************/
 
 module reg16(

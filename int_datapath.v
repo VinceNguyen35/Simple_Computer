@@ -2,15 +2,14 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // File Name: 	int_datapath.v
-// Project:		CECS 301 Lab 7: CPU Execution Unit
-// Student:		Matthew Buchholz
+// Author:		Matthew Buchholz
 // Rev. Date:	April 8, 2019
 //
 // Purpose:		This is the integer datapath module. The module instantiates a
-//					8 x 16 register file and a ALU module.
+//				8 x 16 register file and a ALU module.
 //
-// Notes:		A 2 to 1 mux is made within this module that selects the value of the S
-//					address when the mux is a 0 and DS when the mux is a 1.
+// Notes:		A 2 to 1 mux is made within this module that selects the value of
+//              the S address when the mux is a 0 and DS when the mux is a 1.
 //
 //////////////////////////////////////////////////////////////////////////////////
 

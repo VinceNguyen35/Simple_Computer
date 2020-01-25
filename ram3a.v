@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 //////////////////////////////////////////////////////////////////////////////////
-// File Name: 	ram3.v
+// File Name: 	ram3a.v
 // Authors:	Vince Nguyen & Matthew Buchholz
 // Rev. Date:	May 8, 2019
 //
@@ -10,12 +10,12 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 
-module ram3(
-    input 			 clk,
-    input 			 we,
-    input 	[15:0] addr,
-    input 	[15:0] din,
-    output 	[15:0] dout
+module ram3a(
+    input 		clk,
+    input 		we,
+    input 	[15:0]  addr,
+    input 	[15:0]  din,
+    output 	[15:0]  dout
     );
 	 
 	 //----------- Begin Cut here for INSTANTIATION Template ---// INST_TAG

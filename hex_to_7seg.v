@@ -1,22 +1,17 @@
 `timescale 1ns / 100ps
 
-/****************************** C E C S  3 0 1 ******************************
+/****************************************************************************
  * 
  * File Name:  hex_to_7seg.v
- * Project:    Lab Project 4: Memory & Display Controllers
  * Designer:   Matthew Buchholz 
  * Email:      matthew.buchholz@student.csulb.edu
  * Rev. No.:   Version 2.0
  * Rev. Date:  3/11/19
  *
- * Purpose: -4:16 decoder that maps a 4-bit input vector to the corresponding
- *					7-bit vector
- *             where each bit in the 7-bit vector corresponds to a single
- *					7-segment LED
- *          -7 segment LEDs are LOW active
- *          -For this lab a mix of upper and lower case letters are displayed,
- *					but may change
- *             for later labs
+ * Purpose:  4:16 decoder that maps a 4-bit input vector to the corresponding
+ *			 7-bit vector where each bit in the 7-bit vector corresponds to
+ *           a single 7-segment LED.
+ *           7 segment LEDs are LOW active.
  *
  ****************************************************************************/
 

@@ -2,53 +2,52 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // File Name: 	control_unit.v
-// Project:		CECS 301 Lab 8: 16-bit RISC Processor
-//	Student:		Vince Nguyen & Matthew Buchholz
-//	Rev. Date:	May 8, 2019
+// Authors:	Vince Nguyen & Matthew Buchholz
+// Rev. Date:	May 8, 2019
 //
-//	Purpose:		A "Moore" finite state machine that implements the major cycles for
-//					fetching and executing instructions for the 16-bit RISC Processor.
+// Purpose:	A "Moore" finite state machine that implements the major cycles for
+//		fetching and executing instructions for the 16-bit RISC Processor.
 //
 //////////////////////////////////////////////////////////////////////////////////
 
 module control_unit(
-    input 		  clk,			// clock
-    input 		  reset,			// reset
-    input [15:0] ir,				// instruction register input
-    input 		  N,				// datapath status inputs:	Negative
-    input 		  Z,				//									Zero
-    input 		  C,				// 								Carry
-    output [2:0] W_Adr,			// register file address outputs
-    output [2:0] R_Adr, 		//
-    output [2:0] S_Adr,			//
-    output 		  adr_sel,		// mux select outputs
-    output 		  s_sel,			//
-    output 		  pc_ld,			// pc load
-    output 		  pc_inc,		// pc inc
-    output 		  pc_sel,		// pc select
-    output 		  ir_ld,			// ir load
-    output 		  mw_en,			// memory write
-    output 		  rw_en,			// register file write
-    output [3:0] alu_op,		// ALU opcode output
-    output [7:0] status			// 8 LED outputs to display current state
+    input 	  clk,			// clock
+    input 	  reset,		// reset
+    input  [15:0] ir,			// instruction register input
+    input 	  N,			// datapath status inputs:	Negative
+    input 	  Z,			//				Zero
+    input 	  C,			// 				Carry
+    output [2:0]  W_Adr,		// register file address outputs
+    output [2:0]  R_Adr, 		//
+    output [2:0]  S_Adr,		//
+    output 	  adr_sel,		// mux select outputs
+    output 	  s_sel,		//
+    output 	  pc_ld,		// pc load
+    output 	  pc_inc,		// pc inc
+    output 	  pc_sel,		// pc select
+    output 	  ir_ld,		// ir load
+    output 	  mw_en,		// memory write
+    output 	  rw_en,		// register file write
+    output [3:0]  alu_op,		// ALU opcode output
+    output [7:0]  status		// 8 LED outputs to display current state
     );
 
 	/////////////////////////////
-	//		data structures		//
+	//	data structures	   //
 	/////////////////////////////
 
 	reg	[2:0]	W_Adr, R_Adr, S_Adr;	// These 12
-	reg			adr_sel, s_sel;		// fields make
-	reg			pc_ld, pc_inc;			// up the
-	reg			pc_sel, ir_ld;			// control word
-	reg			mw_en, rw_en;			// of the
-	reg	[3:0]	alu_op;					// control unit
+	reg		adr_sel, s_sel;		// fields make
+	reg		pc_ld, pc_inc;		// up the
+	reg		pc_sel, ir_ld;		// control word
+	reg		mw_en, rw_en;		// of the
+	reg	[3:0]	alu_op;			// control unit
 
-	reg	[4:0]	state;					// present state register
-	reg	[4:0]	nextstate;				// next state register
-	reg	[7:0]	status;					// LED status/state outputs
-	reg			ps_N, ps_Z, ps_C;		// present state flags register
-	reg			ns_N, ns_Z, ns_C;		// next state flags register
+	reg	[4:0]	state;			// present state register
+	reg	[4:0]	nextstate;		// next state register
+	reg	[7:0]	status;			// LED status/state outputs
+	reg		ps_N, ps_Z, ps_C;	// present state flags register
+	reg		ns_N, ns_Z, ns_C;	// next state flags register
 
 	parameter	RESET=0,	FETCH=1,	DECODE=2,
 					ADD=3,	SUB=4,	CMP=5,	MOV=6,
@@ -59,7 +58,7 @@ module control_unit(
 					ILLEGAL_OP=31;
 
 	///////////////////////////////////
-	//		Control Unit Sequencer		//
+	//	Control Unit Sequencer	 //
 	///////////////////////////////////
 
 	// synchronous state register assignment
@@ -81,8 +80,8 @@ module control_unit(
 	always @(state)
 		case(state)
 
-			RESET:	begin			//	Default Control Word Values
-										// LED pattern = 1111_111
+			RESET:	begin			// Default Control Word Values
+							// LED pattern = 1111_111
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -92,8 +91,8 @@ module control_unit(
 				nextstate = FETCH;
 			end
 
-			FETCH:	begin			//	IR <-- M[PC],	PC <- PC+1
-										// LED pattern = 1000_000
+			FETCH:	begin			// IR <-- M[PC],	PC <- PC+1
+							// LED pattern = 1000_000
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b1;		pc_sel = 1'b0;		ir_ld = 1'b1;
@@ -103,8 +102,8 @@ module control_unit(
 				nextstate = DECODE;
 			end
 
-			DECODE:	begin			//	Default Control Word, NS <- case(IR[15:9])
-										// LED pattern = 1100_000
+			DECODE:	begin			// Default Control Word, NS <- case(IR[15:9])
+							// LED pattern = 1100_000
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -132,8 +131,8 @@ module control_unit(
 				endcase
 			end
 
-			ADD:	begin			//	R[ir(8:6)] <- R[ir(5:3)] + R[ir(2:0)]
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b00000}
+			ADD:	begin			// R[ir(8:6)] <- R[ir(5:3)] + R[ir(2:0)]
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b00000}
 				W_Adr		= ir[8:6];	R_Adr	 = ir[5:3];	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -143,8 +142,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			SUB:	begin			//	R[ir(8:6)] <- R[ir(5:3)] - R[ir(2:0)]
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b00001}
+			SUB:	begin			// R[ir(8:6)] <- R[ir(5:3)] - R[ir(2:0)]
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b00001}
 				W_Adr		= ir[8:6];	R_Adr	 = ir[5:3];	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -154,8 +153,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			CMP:	begin			//	R[ir(5:3)] - R[ir(2:0)]
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b00010}
+			CMP:	begin			// R[ir(5:3)] - R[ir(2:0)]
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b00010}
 				W_Adr		= 3'b000;	R_Adr	 = ir[5:3];	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -165,8 +164,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			MOV:	begin			//	R[ir(8:6)] <- R[ir(2:0)]
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b00011}
+			MOV:	begin			// R[ir(8:6)] <- R[ir(2:0)]
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b00011}
 				W_Adr		= ir[8:6];	R_Adr	 = 3'b000;	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -176,8 +175,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			SHL:	begin			//	R[ir(8:6)] <- R[ir(2:0)] << 1
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b00100}
+			SHL:	begin			// R[ir(8:6)] <- R[ir(2:0)] << 1
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b00100}
 				W_Adr		= ir[8:6];	R_Adr	 = 3'b000;	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -187,8 +186,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			SHR:	begin			//	R[ir(8:6)] <- R[ir(2:0)] >> 1
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b00101}
+			SHR:	begin			// R[ir(8:6)] <- R[ir(2:0)] >> 1
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b00101}
 				W_Adr		= ir[8:6];	R_Adr	 = 3'b000;	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -198,8 +197,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			INC:	begin			//	R[ir(8:6)] <- R[ir(2:0)] + 1
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b00110}
+			INC:	begin			// R[ir(8:6)] <- R[ir(2:0)] + 1
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b00110}
 				W_Adr		= ir[8:6];	R_Adr	 = 3'b000;	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -209,8 +208,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			DEC:	begin			//	R[ir(8:6)] <- R[ir(2:0)] - 1
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b00111}
+			DEC:	begin			// R[ir(8:6)] <- R[ir(2:0)] - 1
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b00111}
 				W_Adr		= ir[8:6];	R_Adr	 = 3'b000;	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -220,8 +219,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			LD:	begin			//	R[ir(8:6)] <- M[ R[ir(2:0)] ]
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b01000}
+			LD:	begin			// R[ir(8:6)] <- M[ R[ir(2:0)] ]
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b01000}
 				W_Adr		= ir[8:6];	R_Adr	 = ir[2:0];	S_Adr	 = 3'b000;
 				adr_sel	= 1'b1;		s_sel  = 1'b1;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -231,8 +230,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			STO:	begin			//	M[ R[ir(8:6)] ] <- R[ir(2:0)]
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b01001}
+			STO:	begin			// M[ R[ir(8:6)] ] <- R[ir(2:0)]
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b01001}
 				W_Adr		= 3'b000;	R_Adr	 = ir[8:6];	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b1;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -242,8 +241,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			LDI:	begin			//	R[ir(8:6)] <- M[PC], PC <- PC + 1
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b1010}
+			LDI:	begin			// R[ir(8:6)] <- M[PC], PC <- PC + 1
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b1010}
 				W_Adr		= ir[8:6];	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b1;
 				pc_ld		= 1'b0;		pc_inc = 1'b1;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -253,9 +252,9 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			JE:	begin			//	if (ps Z=1) PC <-- PC+se IR[7:0]
-									// else			PC <-- PC
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b1100}
+			JE:	begin			// if (ps Z=1) 		PC <-- PC+se IR[7:0]
+							// else			PC <-- PC
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b1100}
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= ps_Z;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -265,9 +264,9 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			JNE:	begin			//	if (ps Z=0) PC <-- PC+se IR[7:0]
-									// else			PC <-- PC
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b1101}
+			JNE:	begin			// if (ps Z=0) 		PC <-- PC+se IR[7:0]
+							// else			PC <-- PC
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b1101}
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= !ps_Z;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -277,9 +276,9 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			JC:	begin			//	if (ps C=1) PC <-- PC+se IR[7:0]
-									// else			PC <-- PC
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b1110}
+			JC:	begin			// if (ps C=1) 		PC <-- PC+se IR[7:0]
+							// else			PC <-- PC
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b1110}
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= ps_C;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -289,8 +288,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			JMP:	begin			//	PC <-- R[ir(2:0)]
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b1111}
+			JMP:	begin			// PC <-- R[ir(2:0)]
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b1111}
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = ir[2:0];
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b1;		pc_inc = 1'b0;		pc_sel = 1'b1;		ir_ld = 1'b0;
@@ -300,8 +299,8 @@ module control_unit(
 				nextstate = FETCH;	// go back to fetch
 			end
 
-			HALT:	begin			//	Default Control Word Values
-									// LED pattern = {ps_N,ps_Z,ps_C,5'b1011}
+			HALT:	begin			// Default Control Word Values
+							// LED pattern = {ps_N,ps_Z,ps_C,5'b1011}
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;
@@ -311,8 +310,8 @@ module control_unit(
 				nextstate = HALT;	// loop here forever
 			end
 
-			ILLEGAL_OP:	begin			//	Default Control Word Values
-											// LED pattern = 111_0000
+			ILLEGAL_OP:	begin			// Default Control Word Values
+								// LED pattern = 111_0000
 				W_Adr		= 3'b000;	R_Adr	 = 3'b000;	S_Adr	 = 3'b000;
 				adr_sel	= 1'b0;		s_sel  = 1'b0;
 				pc_ld		= 1'b0;		pc_inc = 1'b0;		pc_sel = 1'b0;		ir_ld = 1'b0;

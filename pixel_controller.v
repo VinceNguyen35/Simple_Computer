@@ -1,8 +1,7 @@
 `timescale 1ns / 100ps
-/****************************** C E C S  3 0 1 ******************************
+/****************************************************************************
  * 
  * File Name:  pixel_controller.v
- * Project:    CECS 301 Lab 6: Register Files
  * Designer:   Matthew Buchholz 
  * Email:      matthew.buchholz@student.csulb.edu
  * Rev. No.:   Version 2.0

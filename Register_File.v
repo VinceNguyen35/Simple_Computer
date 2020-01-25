@@ -1,25 +1,24 @@
 `timescale 1ns / 100ps
 
-/****************************** C E C S  3 0 1 ******************************
+/****************************************************************************
  * 
  * File Name:  Register_File.v
- * Project:    CECS 301 Lab 6: Register Files
  * Designer:   Matthew Buchholz 
  * Email:      matthew.buchholz@student.csulb.edu
  * Rev. No.:   Version 1.0
  * Rev. Date:  3/20/19
  *
  * Purpose: 	A 16 bit register to be used as a 8 x 16 memory.
- *					The module instantiates three 3 to 8 decoders and eight
- *						reg16 modules.
+ *		The module instantiates three 3 to 8 decoders and eight
+ *		reg16 modules.
  *
  ****************************************************************************/
 
 module Register_File(
-    input 			clk,
-    input 		   rst,
-    input  [2:0] 	W_Adr,
-    input 		   we,
+    input 	  clk,
+    input         rst,
+    input  [2:0]  W_Adr,
+    input 	  we,
     input  [2:0]  R_Adr,
     input  [2:0]  S_Adr,
     input  [15:0] W,

@@ -2,7 +2,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // File Name: 	IR.v
-// Student:	Vince Nguyen & Matthew Buchholz
+// Authors:	Vince Nguyen & Matthew Buchholz
 // Rev. Date:	May 8, 2019
 //
 // Purpose:	This is the Instruction Register, which sends instructions to be

@@ -2,7 +2,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 // File Name: 	PC.v
-// Project:		CECS 301 Lab 8: 16-bit RISC Processor
 //	Student:		Vince Nguyen & Matthew Buchholz
 //	Rev. Date:	May 8, 2019
 //
